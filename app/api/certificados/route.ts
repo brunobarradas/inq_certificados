@@ -12,6 +12,22 @@ function mapRow(row: Record<string, unknown>) {
   };
 }
 
+// Determina o URL base correcto — usa NEXTAUTH_URL em produção
+function getBaseUrl(request: NextRequest): string {
+  // 1. Variável de ambiente explícita (Vercel / produção)
+  if (process.env.NEXTAUTH_URL && !process.env.NEXTAUTH_URL.includes('localhost')) {
+    return process.env.NEXTAUTH_URL.replace(/\/$/, '');
+  }
+  // 2. Header x-forwarded-host (proxy / Vercel)
+  const forwardedHost = request.headers.get('x-forwarded-host');
+  const proto = request.headers.get('x-forwarded-proto') || 'https';
+  if (forwardedHost) {
+    return `${proto}://${forwardedHost}`;
+  }
+  // 3. Fallback para origin do request (funciona em localhost)
+  return request.nextUrl.origin;
+}
+
 export async function POST(request: NextRequest) {
   const session = await auth();
   if (!session) return NextResponse.json({ error: 'Não autorizado' }, { status: 401 });
@@ -31,7 +47,12 @@ export async function POST(request: NextRequest) {
 
   if (e1 || !inserted) { console.error(e1); return NextResponse.json({ error: 'Erro ao guardar' }, { status: 500 }); }
 
-  const qrCodeUrl = await generateQRCode(`${request.nextUrl.origin}/verificar/${inserted.id}`);
+  // URL correcto para o QR Code
+  const baseUrl = getBaseUrl(request);
+  const verificacaoUrl = `${baseUrl}/verificar/${inserted.id}`;
+  const qrCodeUrl = await generateQRCode(verificacaoUrl);
+
+  console.log(`QR Code gerado para: ${verificacaoUrl}`);
 
   const { data: updated, error: e2 } = await db
     .from('certificados').update({ qr_code_url: qrCodeUrl }).eq('id', inserted.id).select().single();
