@@ -44,13 +44,13 @@ export default function CertificadoPreview({ cert, onClose }: Props) {
       pdf.setFontSize(13);
       pdf.setTextColor(20, 20, 20);
       const cursoLines = pdf.splitTextToSize(cert.curso.toUpperCase(), W - 80);
-      pdf.text(cursoLines, W / 2, H * 0.39, { align: 'center' });
+      pdf.text(cursoLines, W / 2, H * 0.41, { align: 'center' });
 
       // Nome do formando — ~51% do topo
       pdf.setFont('times', 'italic');
       pdf.setFontSize(22);
       pdf.setTextColor(20, 20, 20);
-      pdf.text(cert.nomeFormando, W / 2, H * 0.51, { align: 'center' });
+      pdf.text(cert.nomeFormando, W / 2, H * 0.53, { align: 'center' });
 
       // Data de emissão — 75% do topo
       pdf.setFont('helvetica', 'normal');
@@ -191,13 +191,13 @@ export default function CertificadoPreview({ cert, onClose }: Props) {
             boxShadow: '0 25px 70px rgba(0,0,0,0.5)',
           }}>
             {/* Curso */}
-            <div style={{ position: 'absolute', top: '39%', left: '10%', right: '10%', textAlign: 'center' }}>
+            <div style={{ position: 'absolute', top: '41%', left: '10%', right: '10%', textAlign: 'center' }}>
               <p style={{ margin: 0, color: '#141414', fontSize: 'clamp(10px,1.6vw,20px)', fontWeight: 700, letterSpacing: '0.05em', textTransform: 'uppercase', fontFamily: 'Arial, sans-serif', lineHeight: 1.3 }}>
                 {cert.curso.toUpperCase()}
               </p>
             </div>
             {/* Nome */}
-            <div style={{ position: 'absolute', top: '51%', left: '10%', right: '10%', textAlign: 'center' }}>
+            <div style={{ position: 'absolute', top: '53%', left: '10%', right: '10%', textAlign: 'center' }}>
               <p style={{ margin: 0, color: '#141414', fontSize: 'clamp(16px,2.8vw,36px)', fontFamily: "'Times New Roman', Georgia, serif", fontStyle: 'italic', lineHeight: 1.2 }}>
                 {cert.nomeFormando}
               </p>
