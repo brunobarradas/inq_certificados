@@ -44,7 +44,7 @@ export default function CertificadoPreview({ cert, onClose }: Props) {
       pdf.setFontSize(13);
       pdf.setTextColor(20, 20, 20);
       const cursoLines = pdf.splitTextToSize(cert.curso.toUpperCase(), W - 80);
-      pdf.text(cursoLines, W / 2, H * 0.36, { align: 'center' });
+      pdf.text(cursoLines, W / 2, H * 0.39, { align: 'center' });
 
       // Nome do formando — ~51% do topo
       pdf.setFont('times', 'italic');
@@ -61,7 +61,7 @@ export default function CertificadoPreview({ cert, onClose }: Props) {
       // QR Code — canto inferior esquerdo
       if (cert.qrCodeUrl) {
         const qrSize = W * 0.09;
-        const qrX = W * 0.06;
+        const qrX = W * 0.11;
         const qrY = H * 0.78;
         pdf.addImage(cert.qrCodeUrl, 'PNG', qrX, qrY, qrSize, qrSize);
         pdf.setFont('courier', 'normal');
@@ -191,7 +191,7 @@ export default function CertificadoPreview({ cert, onClose }: Props) {
             boxShadow: '0 25px 70px rgba(0,0,0,0.5)',
           }}>
             {/* Curso */}
-            <div style={{ position: 'absolute', top: '36%', left: '10%', right: '10%', textAlign: 'center' }}>
+            <div style={{ position: 'absolute', top: '39%', left: '10%', right: '10%', textAlign: 'center' }}>
               <p style={{ margin: 0, color: '#141414', fontSize: 'clamp(10px,1.6vw,20px)', fontWeight: 700, letterSpacing: '0.05em', textTransform: 'uppercase', fontFamily: 'Arial, sans-serif', lineHeight: 1.3 }}>
                 {cert.curso.toUpperCase()}
               </p>
@@ -209,7 +209,7 @@ export default function CertificadoPreview({ cert, onClose }: Props) {
               </p>
             </div>
             {/* QR Code */}
-            <div style={{ position: 'absolute', top: '78%', left: '6%', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 2 }}>
+            <div style={{ position: 'absolute', top: '78%', left: '11%', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 2 }}>
               {cert.qrCodeUrl && <img src={cert.qrCodeUrl} alt="QR" style={{ width: 'clamp(45px,7vw,75px)', height: 'clamp(45px,7vw,75px)' }} />}
               <p style={{ margin: 0, color: '#444', fontSize: 'clamp(4px,0.55vw,6px)', fontFamily: 'monospace', textAlign: 'center' }}>{cert.numeroCertificado}</p>
             </div>
