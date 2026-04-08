@@ -31,7 +31,7 @@ CREATE TABLE IF NOT EXISTS certificados (
   data_validade      DATE,
   duracao            TEXT,
   instituicao        TEXT NOT NULL DEFAULT 'Instituto Nacional de Qualificações (INQ)',
-  diretor            TEXT NOT NULL DEFAULT 'Edgarda Neto',
+  diretor            TEXT NOT NULL DEFAULT 'Edgarda Sacramento Neto',
   cargo_dir          TEXT NOT NULL DEFAULT 'Diretora-Geral',
   qr_code_url        TEXT,
   emitido_por        UUID REFERENCES utilizadores(id) ON DELETE SET NULL,
@@ -193,3 +193,6 @@ Módulo 5 — Estágio Profissional
   '900 horas'
 )
 ON CONFLICT (nome) DO NOTHING;
+
+-- Actualizar nome da Diretora-Geral em todos os certificados existentes
+UPDATE certificados SET diretor = 'Edgarda Sacramento Neto' WHERE diretor = 'Edgarda Neto';
