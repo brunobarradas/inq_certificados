@@ -46,19 +46,25 @@ export default function CertificadoPreview({ cert, onClose }: Props) {
       const cursoLines = pdf.splitTextToSize(cert.curso.toUpperCase(), W - 80);
       pdf.text(cursoLines, W / 2, H * 0.41, { align: 'center' });
 
-      // Nome do formando — ~51% do topo
+      // Nome do formando — ~53% do topo (tamanho ajustado para caber numa linha)
       pdf.setFont('times', 'italic');
-      pdf.setFontSize(22);
       pdf.setTextColor(20, 20, 20);
+      const nomeMaxWidth = W - 60; // margem de 30mm de cada lado
+      let nomeFontSize = 22;
+      pdf.setFontSize(nomeFontSize);
+      while (pdf.getTextWidth(cert.nomeFormando) > nomeMaxWidth && nomeFontSize > 10) {
+        nomeFontSize -= 0.5;
+        pdf.setFontSize(nomeFontSize);
+      }
       pdf.text(cert.nomeFormando, W / 2, H * 0.53, { align: 'center' });
 
       // Descrição do curso — por baixo do nome (~58%)
       if (curso?.descricao) {
         pdf.setFont('helvetica', 'italic');
-        pdf.setFontSize(10);
+        pdf.setFontSize(12);
         pdf.setTextColor(60, 60, 60);
         const descLines = pdf.splitTextToSize(curso.descricao, W - 80);
-        pdf.text(descLines, W / 2, H * 0.60, { align: 'center' });
+        pdf.text(descLines, W / 2, H * 0.62, { align: 'center' });
       }
 
       // Data de emissão — 75% do topo
@@ -206,15 +212,26 @@ export default function CertificadoPreview({ cert, onClose }: Props) {
               </p>
             </div>
             {/* Nome */}
-            <div style={{ position: 'absolute', top: '53%', left: '10%', right: '10%', textAlign: 'center' }}>
-              <p style={{ margin: 0, color: '#141414', fontSize: 'clamp(16px,2.8vw,36px)', fontFamily: "'Times New Roman', Georgia, serif", fontStyle: 'italic', lineHeight: 1.2 }}>
+            <div style={{ position: 'absolute', top: '53%', left: '5%', right: '5%', textAlign: 'center' }}>
+              <p style={{
+                margin: 0, color: '#141414',
+                fontSize: 'clamp(10px,2.8vw,36px)',
+                fontFamily: "'Times New Roman', Georgia, serif",
+                fontStyle: 'italic', lineHeight: 1.2,
+                whiteSpace: 'nowrap',
+                overflow: 'hidden',
+                textOverflow: 'clip',
+                transformOrigin: 'center',
+                display: 'block',
+                width: '100%',
+              }}>
                 {cert.nomeFormando}
               </p>
             </div>
             {/* Descrição do curso */}
             {curso?.descricao && (
-              <div style={{ position: 'absolute', top: '58%', left: '10%', right: '10%', textAlign: 'center' }}>
-                <p style={{ margin: 0, color: '#444', fontSize: 'clamp(8px,1vw,12px)', fontFamily: 'Arial, sans-serif', fontStyle: 'italic', lineHeight: 1.4 }}>
+              <div style={{ position: 'absolute', top: '60%', left: '10%', right: '10%', textAlign: 'center' }}>
+                <p style={{ margin: 0, color: '#444', fontSize: 'clamp(10px,1.2vw,14px)', fontFamily: 'Arial, sans-serif', fontStyle: 'italic', lineHeight: 1.4 }}>
                   {curso.descricao}
                 </p>
               </div>
