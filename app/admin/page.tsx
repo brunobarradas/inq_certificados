@@ -370,10 +370,17 @@ export default function AdminPage() {
                     </div>
                   </div>
                   <div>
-                    <label className="block text-slate-300 text-sm font-medium mb-1.5">Descrição</label>
-                    <input type="text" value={cursoForm.descricao} onChange={e => setCursoForm({ ...cursoForm, descricao: e.target.value })}
-                      placeholder="Breve descrição do curso..."
-                      className="w-full bg-slate-800 border border-slate-700 rounded-xl px-4 py-2.5 text-white placeholder:text-slate-500 focus:outline-none focus:border-blue-500 transition text-sm" />
+                    <label className="block text-slate-300 text-sm font-medium mb-1.5">
+                      Descrição do Curso
+                      <span className="ml-2 text-slate-500 text-xs font-normal">— aparece no certificado por baixo do nome do participante</span>
+                    </label>
+                    <textarea
+                      value={cursoForm.descricao}
+                      onChange={e => setCursoForm({ ...cursoForm, descricao: e.target.value })}
+                      placeholder="Ex: Formação em Metodologia de Abordagem por Competências, com duração de 25 horas, realizada em Luanda."
+                      rows={3}
+                      className="w-full bg-slate-800 border border-slate-700 rounded-xl px-4 py-2.5 text-white placeholder:text-slate-500 focus:outline-none focus:border-blue-500 transition text-sm resize-y"
+                    />
                   </div>
                   <div>
                     <label className="block text-slate-300 text-sm font-medium mb-1.5">
